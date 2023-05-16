@@ -28,8 +28,10 @@ def login():
 
 
 @auth.route("/logout")
+@login_required
 def logout():
-    return render_template("sign_up.html")
+    logout_user()
+    return redirect(url_for("auth.login"))
 
 
 @auth.route("/sign-up", methods=["GET", "POST"])
