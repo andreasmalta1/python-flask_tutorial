@@ -1,0 +1,29 @@
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from os import path, getenv
+
+db = SQLAlchemy()
+DB_NAME = getenv("DB_NAME")
+print(DB_NAME)
+
+
+def create_app():
+    app = Flask(__name__)
+    app.config["SECRET_KEY"] = getenv("SECRET_KEY")
+    app.config["SQLALCHEMY_DATABASE_URI"] = getenv("SQLALCHEMY_DATABASE_URI")
+    print(getenv("SECRET_KEY"))
+    print(getenv("SQLALCHEMY_DATABASE_URI"))
+    db.init_app(app)
+
+    from .views import views
+    from .auth import auth
+
+    app.register_blueprint(views, url_prefix="/")
+    app.register_blueprint(auth, url_prefix="/")
+
+    from .models import User, Note
+
+    with app.app_context():
+        db.create_all()
+
+    return app
