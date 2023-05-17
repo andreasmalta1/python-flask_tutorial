@@ -5,15 +5,12 @@ from flask_login import LoginManager
 
 db = SQLAlchemy()
 DB_NAME = getenv("DB_NAME")
-print(DB_NAME)
 
 
 def create_app():
     app = Flask(__name__)
     app.config["SECRET_KEY"] = getenv("SECRET_KEY")
     app.config["SQLALCHEMY_DATABASE_URI"] = getenv("SQLALCHEMY_DATABASE_URI")
-    print(getenv("SECRET_KEY"))
-    print(getenv("SQLALCHEMY_DATABASE_URI"))
     db.init_app(app)
 
     login_manager = LoginManager()
